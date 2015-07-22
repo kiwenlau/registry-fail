@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+import sys
+
+imageNumber=sys.argv[1]
+# each benchmark runs 3 times, each image push and pull for 10 times
+baseNumber=imageNumber*3*10
+
 def calculateRate(testNumber):
     sum = 0
     for n in testNumber :
