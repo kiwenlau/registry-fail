@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer http-tap image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Tue Jul  7 00:14:43 JST 2015
+
+sudo docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+sudo docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+f8b1ef505a8f        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+
+real  33.63
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.44
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+5d882b293b45        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+
+real  32.35
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.49
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+34a028913c29        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+
+real  34.26
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  6.28
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+152702b74544        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:369b0f3dcbac2e708b4d7c73a368cb22b96e5db7fad5f7a36faa8d17fc4ec1df
+
+real  34.15
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:369b0f3dcbac2e708b4d7c73a368cb22b96e5db7fad5f7a36faa8d17fc4ec1df
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.43
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+1cdc92327f75        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+
+real  33.24
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.43
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+2a496137a11b        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:8f2a54ede48b74910363976f0d03bb9ba6873b8095ba666f0fec6f012ff546a7
+
+real  33.35
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:8f2a54ede48b74910363976f0d03bb9ba6873b8095ba666f0fec6f012ff546a7
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.52
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+a26dcea71886        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:6061d5f34a0e1434e3dc67d9c306156fce81385671ecce2b30b57a1b7314af4b
+
+real  32.14
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:6061d5f34a0e1434e3dc67d9c306156fce81385671ecce2b30b57a1b7314af4b
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.42
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+62b0d176edeb        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:369b0f3dcbac2e708b4d7c73a368cb22b96e5db7fad5f7a36faa8d17fc4ec1df
+
+real  31.51
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:369b0f3dcbac2e708b4d7c73a368cb22b96e5db7fad5f7a36faa8d17fc4ec1df
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.48
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+fb246570c09f        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+
+real  31.99
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:59462e8b8ee1adfa9992c0350a00452422ca0f07dcbf4d27ec131ef2bab57a3e
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.51
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.80:5000/http-tap:flat
+
+docker images
+136.187.101.80:5000/http-tap    flat                910c9038284f        2 weeks ago         199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        2 weeks ago         199.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+18ad1e27bf14        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/http-tap:flat
+The push refers to a repository [136.187.101.80:5000/http-tap] (len: 1)
+910c9038284f: Buffering to Disk
+910c9038284f: Image successfully pushed
+910c9038284f: Image already exists
+Digest: sha256:072e6f6bf92fac307a7e43bb15d3fb486980506b363564e406a81ffa8e768c1c
+
+real  32.37
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.80:5000/http-tap:flat
+flat: Pulling from 136.187.101.80:5000/http-tap
+910c9038284f: Pulling fs layer
+910c9038284f: Pulling fs layer
+910c9038284f: Layer already being pulled by another client. Waiting.
+910c9038284f: Verifying Checksum
+910c9038284f: Download complete
+910c9038284f: Download complete
+910c9038284f: Pull complete
+910c9038284f: Already exists
+Digest: sha256:072e6f6bf92fac307a7e43bb15d3fb486980506b363564e406a81ffa8e768c1c
+Status: Downloaded newer image for 136.187.101.80:5000/http-tap:flat
+
+real  5.46
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.80:5000/http-tap            flat                910c9038284f        2 weeks ago         199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker rm -f docker_registry
+
+end date: Tue Jul  7 00:22:13 JST 2015
+
+

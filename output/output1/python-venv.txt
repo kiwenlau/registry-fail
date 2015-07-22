@@ -1,0 +1,645 @@
+
+pullpush benchmark: transfer python-venv image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Wed Jun 24 01:35:35 JST 2015
+
+sudo docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+sudo docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+7ca2c5959a25        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+4481a87fadc9        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  89.74
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.51
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+1772d059d01d        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  78.96
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.52
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+2c88320397b4        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  83.47
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.49
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+8b41e5e92b8a        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+9da3f7183cd6        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  81.99
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.55
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+99f9d51b31ed        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  81.81
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.55
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+3d9db1d05015        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+50f25c8f94c0        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+175df6ae53ec        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  86.92
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.61
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+afb438de6d2b        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  78.94
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.50
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+bfe90ee07f48        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        26 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        26 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        26 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+53a3940303ea        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        27 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        27 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        27 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+fe47394ec469        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  82.99
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.57
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        27 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        27 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        27 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        27 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+c251db03860b        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        27 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        27 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        27 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+3f7704ce5d17        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  82.89
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.60
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        27 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        27 hours ago        503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.71:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        27 hours ago        503.9 MB
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        27 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+41891c4d0cc4        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/python-venv:flat
+The push refers to a repository [136.187.101.71:5000/python-venv] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/python-venv (1 tags)
+b7e3df255d84: Pushing
+b7e3df255d84: Buffering to disk
+b7e3df255d84: Image successfully pushed
+Pushing tag for rev [b7e3df255d84] on {http://136.187.101.71:5000/v1/repositories/python-venv/tags/flat}
+
+real  84.56
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.71:5000/python-venv:flat
+Pulling repository 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv
+b7e3df255d84: Pulling image (flat) from 136.187.101.71:5000/python-venv, endpoint: http://136.187.101.71:5000/v1/
+b7e3df255d84: Pulling dependent layers
+b7e3df255d84: Pulling metadata
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/python-venv:flat
+
+real  15.50
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.71:5000/python-venv   flat                b7e3df255d84        27 hours ago        503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Wed Jun 24 01:54:11 JST 2015
+
+

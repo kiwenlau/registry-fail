@@ -1,0 +1,527 @@
+
+pullpush benchmark: transfer baywatch image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Sun Jun 28 04:43:10 JST 2015
+
+sudo docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+sudo docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+b2af521a619d        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:40b43e99266f558ee7b6fa0c5083813b0f21fff14786d6818bd6890440d7e570
+
+real  109.40
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:40b43e99266f558ee7b6fa0c5083813b0f21fff14786d6818bd6890440d7e570
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.66
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+18f260c41950        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+
+real  101.76
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.98
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+b672adb22b64        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:c66f42fdd157e229a139754da4f4d86165f372b36612b086072a11cde2c33bbf
+
+real  104.05
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:c66f42fdd157e229a139754da4f4d86165f372b36612b086072a11cde2c33bbf
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.82
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+a460fbac69aa        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:74f7eb70cc2d4c237294d285d54fd8f7998bc91a8f84c62d5d509a45eaf71397
+
+real  107.07
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:74f7eb70cc2d4c237294d285d54fd8f7998bc91a8f84c62d5d509a45eaf71397
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.72
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+ad447aa617f0        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+
+real  104.81
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.71
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+f1f4d33b4dd3        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:27cb6ad666a6cf7468b95d9a5f210f6875adfe718feeac26c32704d7b104f99d
+
+real  104.74
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:27cb6ad666a6cf7468b95d9a5f210f6875adfe718feeac26c32704d7b104f99d
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.77
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+3d7d4023787a        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:30a76efe8b48e30e77e8c561ec00f0de51c9cf58cf8472eb1a9c900d7f1664d7
+
+real  109.03
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:30a76efe8b48e30e77e8c561ec00f0de51c9cf58cf8472eb1a9c900d7f1664d7
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.84
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+540f3b90f0d6        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:c66f42fdd157e229a139754da4f4d86165f372b36612b086072a11cde2c33bbf
+
+real  104.00
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:c66f42fdd157e229a139754da4f4d86165f372b36612b086072a11cde2c33bbf
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.88
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+e169ecce1b41        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+
+real  104.76
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.65
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 baywatch
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+docker tag kiwenlau/baywatch:flat 136.187.101.71:5000/baywatch:flat
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        5 days ago          735.5 MB
+136.187.101.71:5000/baywatch    flat                a2ce4526a8a9        5 days ago          929.1 MB
+kiwenlau/baywatch               flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+2cf20959822a        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch:flat
+The push refers to a repository [136.187.101.71:5000/baywatch] (len: 1)
+a2ce4526a8a9: Buffering to Disk
+a2ce4526a8a9: Image successfully pushed
+a2ce4526a8a9: Image already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+
+real  107.99
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+docker pull 136.187.101.71:5000/baywatch:flat
+flat: Pulling from 136.187.101.71:5000/baywatch
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Pulling fs layer
+a2ce4526a8a9: Layer already being pulled by another client. Waiting.
+a2ce4526a8a9: Verifying Checksum
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Download complete
+a2ce4526a8a9: Pull complete
+a2ce4526a8a9: Already exists
+Digest: sha256:04dbc88829bfd85745c6e5d3c69419a91b189e7e69e734ce1bb6a32f0fa94080
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch:flat
+
+real  24.91
+
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+136.187.101.71:5000/baywatch   flat                a2ce4526a8a9        5 days ago          929.1 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Sun Jun 28 05:06:30 JST 2015
+
+

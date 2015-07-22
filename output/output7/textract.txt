@@ -1,0 +1,725 @@
+
+pullpush benchmark: transfer textract image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Tue Jun 30 01:10:12 JST 2015
+
+sudo docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+sudo docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+a191f0293bae        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f21ca769a764        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+493595220b65        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  73.94
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.07
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+2c7c9eabe3f0        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  72.41
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.15
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+cc3f615cdfd1        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+fb26aa412b36        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+7d26cb0637d0        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  73.97
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.15
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+b4e34be42c6c        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  74.60
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.19
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+453f41a8750d        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  73.03
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.17
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+5868d8239511        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+5e89997366fa        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+1afaab5b30dd        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  72.61
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.05
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+31a908140b4f        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+1cf19cfe3825        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+9b388a160301        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  73.02
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.22
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+a1f2513eb375        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+c6dd123bfbf2        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  73.78
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.52
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+9b20403f6874        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+3335eb5e3875        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+
+docker rm -f docker_registry
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+69dccdbef5f7        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  73.87
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.15
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        7 days ago          399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        7 days ago          399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+fc587e8416e3        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/textract (1 tags)
+f18cb7295a75: Pushing
+f18cb7295a75: Buffering to disk
+f18cb7295a75: Image successfully pushed
+Pushing tag for rev [f18cb7295a75] on {http://136.187.101.80:5000/v1/repositories/textract/tags/flat}
+
+real  74.54
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+Pulling repository 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling image (flat) from 136.187.101.80:5000/textract, endpoint: http://136.187.101.80:5000/v1/
+f18cb7295a75: Pulling dependent layers
+f18cb7295a75: Pulling metadata
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  13.19
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract   flat                f18cb7295a75        7 days ago          399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+end date: Tue Jun 30 01:26:49 JST 2015
+
+

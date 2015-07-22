@@ -1,0 +1,565 @@
+
+pullpush benchmark: transfer ubuntu-python-falcon image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Fri Jul  3 02:41:50 JST 2015
+
+sudo docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+sudo docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+55f452549bb6        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  104.50
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.39
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+fde8bc3f95b5        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker rm -f docker_registry
+
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+87785a6c8ad6        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  102.32
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.50
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+402218f5bc6d        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  102.76
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.58
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+b1cde43d2b49        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker rm -f docker_registry
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+c0ba729a91f6        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker rm -f docker_registry
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+894002f177e9        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  103.01
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.55
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+21686bb6f591        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  104.35
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.46
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f84ff2b80d9c        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  104.72
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.47
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+7f8d3cb71125        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  104.90
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.51
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+6ed03d4cba05        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  103.96
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.19
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+b89df193ff96        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  104.22
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.48
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+docker images
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        10 days ago         702.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+66eecc7b7328        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.80:5000/ubuntu-python-falcon] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ubuntu-python-falcon (1 tags)
+082424fb8ce5: Pushing
+082424fb8ce5: Buffering to disk
+082424fb8ce5: Image successfully pushed
+Pushing tag for rev [082424fb8ce5] on {http://136.187.101.80:5000/v1/repositories/ubuntu-python-falcon/tags/flat}
+
+real  104.58
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.80:5000/ubuntu-python-falcon:flat
+Pulling repository 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling image (flat) from 136.187.101.80:5000/ubuntu-python-falcon, endpoint: http://136.187.101.80:5000/v1/
+082424fb8ce5: Pulling dependent layers
+082424fb8ce5: Pulling metadata
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ubuntu-python-falcon:flat
+
+real  20.39
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.80:5000/ubuntu-python-falcon   flat                082424fb8ce5        10 days ago         702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker rm -f docker_registry
+
+end date: Fri Jul  3 03:04:04 JST 2015
+
+

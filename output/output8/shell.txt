@@ -1,0 +1,595 @@
+
+pullpush benchmark: transfer shell image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Thu Jul  2 00:43:37 JST 2015
+
+sudo docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+kiwenlau/cb-shell               latest              f62e333bd3c5        6 weeks ago         150 MB
+
+sudo docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+kiwenlau/cb-shell               latest              f62e333bd3c5        6 weeks ago         150 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+116dc050ad47        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  61.20
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.08
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+90a042fb9015        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  59.54
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.04
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+691d7ddc5ae5        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+
+docker rm -f docker_registry
+
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+5f552c530110        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  59.01
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.01
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+919d88a7c65c        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  55.65
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.06
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+7673a2a2c949        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  56.55
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.08
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+32c6cf4c821b        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f52f2123c9a8        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  54.23
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.04
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+1a7e69f9cd5d        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  54.79
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.06
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+c957cd9aaaae        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  52.51
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.08
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+b44b99c798e4        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+
+docker rm -f docker_registry
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+ed178bb776e3        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  54.36
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.01
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.80:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        9 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        9 days ago          299.9 MB
+136.187.101.80:5000/shell       flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+467718e0bdac        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/shell:flat
+The push refers to a repository [136.187.101.80:5000/shell] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/shell (1 tags)
+8d1432b2ec2d: Pushing
+8d1432b2ec2d: Buffering to disk
+8d1432b2ec2d: Image successfully pushed
+Pushing tag for rev [8d1432b2ec2d] on {http://136.187.101.80:5000/v1/repositories/shell/tags/flat}
+
+real  51.28
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.80:5000/shell:flat
+Pulling repository 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell
+8d1432b2ec2d: Pulling image (flat) from 136.187.101.80:5000/shell, endpoint: http://136.187.101.80:5000/v1/
+8d1432b2ec2d: Pulling dependent layers
+8d1432b2ec2d: Pulling metadata
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/shell:flat
+
+real  11.03
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.80:5000/shell   flat                8d1432b2ec2d        9 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker rm -f docker_registry
+
+end date: Thu Jul  2 00:56:06 JST 2015
+
+

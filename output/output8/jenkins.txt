@@ -1,0 +1,767 @@
+
+pullpush benchmark: transfer jenkins image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Thu Jul  2 02:28:04 JST 2015
+
+sudo docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins-slave          latest              34e0323ef111        4 weeks ago         698.2 MB
+
+sudo docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins-slave          latest              34e0323ef111        4 weeks ago         698.2 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+efec7a83c6a6        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  88.91
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.14
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+5174ea1a02a7        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  86.82
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.48
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+c370be17c993        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  88.19
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.11
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+b3b68ffdb7b4        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+7ebe84ad9429        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+ee3f5f4c0a21        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+10d80e2af78d        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  87.79
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.09
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+fa39e104997b        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  87.02
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.10
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+4eba7bcbe639        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  87.32
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.35
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f04cca9f23bf        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f009a848d82f        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+9f4445064b5b        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+6b81985eae0c        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+a2bfd84d23dd        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  88.47
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.24
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+de0a953b048a        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  87.97
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.23
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+5b851ff5d243        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+85c23166116b        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+6a9243d88029        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+9e88ba65c98f        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  87.48
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.14
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+97fdea25c30a        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+efdc6bd7f697        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+b02d614b20f1        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+
+docker rm -f docker_registry
+
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        9 days ago          650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        9 days ago          650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+06ff39f0098c        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/jenkins (1 tags)
+411d8c1b2f30: Pushing
+411d8c1b2f30: Buffering to disk
+411d8c1b2f30: Image successfully pushed
+Pushing tag for rev [411d8c1b2f30] on {http://136.187.101.80:5000/v1/repositories/jenkins/tags/flat}
+
+real  87.48
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+Pulling repository 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling image (flat) from 136.187.101.80:5000/jenkins, endpoint: http://136.187.101.80:5000/v1/
+411d8c1b2f30: Pulling dependent layers
+411d8c1b2f30: Pulling metadata
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  19.15
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        9 days ago          650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+end date: Thu Jul  2 02:48:05 JST 2015
+
+

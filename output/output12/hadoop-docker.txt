@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer hadoop-docker image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Tue Jul  7 08:37:15 JST 2015
+
+sudo docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+sudo docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+9937057a25b5        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  147.61
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.78
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+9d1c19fc26e3        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  148.96
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  33.43
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+07fdda36282d        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  147.21
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.61
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+5de8bd60d225        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  145.75
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.43
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+2eeaab1cc5e4        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  147.45
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.80
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+02a1013cf5eb        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  146.36
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  33.34
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+45f3933e594d        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  146.47
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.56
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+836e0455a587        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  149.84
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  33.24
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+93221929bb26        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  150.31
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.58
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        2 weeks ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        2 weeks ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+fc75fb929763        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+a6019eabac72: Buffering to Disk
+a6019eabac72: Image successfully pushed
+a6019eabac72: Image already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+
+real  152.46
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+flat: Pulling from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling fs layer
+a6019eabac72: Pulling fs layer
+a6019eabac72: Layer already being pulled by another client. Waiting.
+a6019eabac72: Verifying Checksum
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+a6019eabac72: Pull complete
+a6019eabac72: Already exists
+Digest: sha256:43977eb0b94301becf5dd8bfaced907d272c3f23dbff8328e2e6c2697fcbfed2
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.94
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker       flat                a6019eabac72        2 weeks ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+end date: Tue Jul  7 09:08:43 JST 2015
+
+

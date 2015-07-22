@@ -2,168 +2,62 @@
 pullpush benchmark: transfer swagger-editor image to 136.187.101.71 host
  
 hostname: kuruwa-gw
-begin date: Sun Jun 14 04:32:05 JST 2015
+begin date: Sat Jun 27 04:22:07 JST 2015
 
 sudo docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
+kiwenlau/swagger-editor         latest              ff61d7bfda17        4 months ago        904.6 MB
 
 sudo docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
+kiwenlau/swagger-editor         latest              ff61d7bfda17        4 months ago        904.6 MB
 
 
 Test 1: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-f7eada76d0a1        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+469f0a4ae2c6        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Buffering to Disk
-3c5158733227: Image successfully pushed
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Buffering to Disk
-6dad509e6e13: Image successfully pushed
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Buffering to Disk
-b4bf25e902be: Image successfully pushed
-ca7a0d5de2eb: Buffering to Disk
-ca7a0d5de2eb: Image successfully pushed
-5ba9dab47459: Buffering to Disk
-5ba9dab47459: Image successfully pushed
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:b793ce35ada345069f56fc53fab6dce0bf3ff69fbb0a5c81729812dc785d9db9
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
 
-real  104.73
+real  97.02
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-511136ea3c5a: Pull complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:b793ce35ada345069f56fc53fab6dce0bf3ff69fbb0a5c81729812dc785d9db9
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.03
+real  25.23
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -171,151 +65,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 2: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-a26dc61c56e9        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+efd141b6f3ea        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:70863f3e596d110da55d1d82057d764a5254186d00933eada128bdbff02408d9
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
 
-real  105.88
+real  96.29
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-511136ea3c5a: Pull complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:70863f3e596d110da55d1d82057d764a5254186d00933eada128bdbff02408d9
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.44
+real  23.91
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -323,151 +114,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 3: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-d9baa8fcccc8        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+8ca31fd82b73        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:104cf7148b9883d3ad2449aaadc8dad5f0f581ceaedd9cbf6e11eb289e603764
 
-real  105.26
+real  99.81
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Pull complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:104cf7148b9883d3ad2449aaadc8dad5f0f581ceaedd9cbf6e11eb289e603764
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.04
+real  23.80
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -475,151 +163,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 4: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-ab8807c585ef        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+8f47d5771662        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:88f91d0844d7e16adae3d486cbcebaa1a69fe89753a437db2c15b6ef30321690
 
-real  105.70
+real  94.79
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-511136ea3c5a: Pull complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:88f91d0844d7e16adae3d486cbcebaa1a69fe89753a437db2c15b6ef30321690
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.14
+real  23.80
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -627,151 +212,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 5: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-4c532587ad8b        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+e8eb6e00b9b9        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:7e82658dff5c8d3c4d8e26c7eeb9a99a9f47f1d93ea8ba830a662c0093dd4d07
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:a1b821b72db984cc1e6ebb46fbeac8c7644a6c6a8fa3c30483b941bada86f7b4
 
-real  104.37
+real  94.65
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-511136ea3c5a: Pull complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:7e82658dff5c8d3c4d8e26c7eeb9a99a9f47f1d93ea8ba830a662c0093dd4d07
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:a1b821b72db984cc1e6ebb46fbeac8c7644a6c6a8fa3c30483b941bada86f7b4
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  26.02
+real  23.79
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -779,151 +261,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 6: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-4306ef5d14e3        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+2774524a1fdf        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:a728f7a4aef55e99b73d9d26f74c92fff360bbafc80395ac197a1538f5777077
 
-real  109.98
+real  96.09
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-511136ea3c5a: Pull complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:a728f7a4aef55e99b73d9d26f74c92fff360bbafc80395ac197a1538f5777077
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.53
+real  24.58
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -931,151 +310,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 7: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-ea63c91a5b7f        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+f6692ee00cbc        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:7e82658dff5c8d3c4d8e26c7eeb9a99a9f47f1d93ea8ba830a662c0093dd4d07
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
 
-real  106.01
+real  95.90
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-511136ea3c5a: Pull complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:7e82658dff5c8d3c4d8e26c7eeb9a99a9f47f1d93ea8ba830a662c0093dd4d07
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.18
+real  23.80
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -1083,151 +359,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 8: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-087179b75894        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+6f8533132515        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:7e82658dff5c8d3c4d8e26c7eeb9a99a9f47f1d93ea8ba830a662c0093dd4d07
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:fa51df54b68929a2643de00df4ce97e820a8d4c4047addbcc8be275b5c9c6760
 
-real  107.33
+real  95.39
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-ff61d7bfda17: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-511136ea3c5a: Pull complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:7e82658dff5c8d3c4d8e26c7eeb9a99a9f47f1d93ea8ba830a662c0093dd4d07
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:fa51df54b68929a2643de00df4ce97e820a8d4c4047addbcc8be275b5c9c6760
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.77
+real  24.02
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -1235,151 +408,48 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 9: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-8c20d7935c4d        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+27fc826b0237        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
 
-real  109.38
+real  96.34
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-511136ea3c5a: Pull complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.10
+real  24.13
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
@@ -1387,154 +457,51 @@ ssh kai@136.187.101.71 "docker rm -f docker_registry"
 Test 10: ./pushpull.sh kai 136.187.101.71 swagger-editor
 
 docker images
-kiwenlau/swagger-editor      latest              ff61d7bfda17        3 months ago        904.6 MB
+kiwenlau/swagger-editor         flat                82c4e72da24c        4 days ago          875.7 MB
 
-docker tag kiwenlau/swagger-editor:latest 136.187.101.71:5000/swagger-editor:latest
+docker tag kiwenlau/swagger-editor:flat 136.187.101.71:5000/swagger-editor:flat
 
 docker images
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
-kiwenlau/swagger-editor              latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
+kiwenlau/swagger-editor              flat                82c4e72da24c        4 days ago          875.7 MB
 
 ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
-602d15bde149        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+dba02e4cd013        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.71:5000/swagger-editor:latest
+docker push 136.187.101.71:5000/swagger-editor:flat
 The push refers to a repository [136.187.101.71:5000/swagger-editor] (len: 1)
-ff61d7bfda17: Buffering to Disk
-ff61d7bfda17: Image successfully pushed
-ff61d7bfda17: Image already exists
-3c5158733227: Image already exists
-8215a030e8ab: Buffering to Disk
-8215a030e8ab: Image successfully pushed
-5aa3d2f00fa8: Buffering to Disk
-5aa3d2f00fa8: Image successfully pushed
-744a2173b7e7: Buffering to Disk
-744a2173b7e7: Image successfully pushed
-289eb2919b18: Buffering to Disk
-289eb2919b18: Image successfully pushed
-a2bebd23e970: Buffering to Disk
-a2bebd23e970: Image successfully pushed
-12589745597b: Buffering to Disk
-12589745597b: Image successfully pushed
-8bfb10533ec2: Buffering to Disk
-8bfb10533ec2: Image successfully pushed
-6dad509e6e13: Image already exists
-b20022aa994c: Buffering to Disk
-b20022aa994c: Image successfully pushed
-f7d1a0c65297: Buffering to Disk
-f7d1a0c65297: Image successfully pushed
-b4bf25e902be: Image already exists
-ca7a0d5de2eb: Image already exists
-5ba9dab47459: Image already exists
-51a9c7c1f8bb: Buffering to Disk
-51a9c7c1f8bb: Image successfully pushed
-5f92234dcf1e: Buffering to Disk
-5f92234dcf1e: Image successfully pushed
-27d47432a69b: Buffering to Disk
-27d47432a69b: Image successfully pushed
-511136ea3c5a: Image already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
+82c4e72da24c: Buffering to Disk
+82c4e72da24c: Image successfully pushed
+82c4e72da24c: Image already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
 
-real  108.76
+real  94.14
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
 
-docker pull 136.187.101.71:5000/swagger-editor:latest
-latest: Pulling from 136.187.101.71:5000/swagger-editor
-511136ea3c5a: Pulling fs layer
-27d47432a69b: Pulling fs layer
-5f92234dcf1e: Pulling fs layer
-51a9c7c1f8bb: Pulling fs layer
-5ba9dab47459: Pulling fs layer
-ca7a0d5de2eb: Pulling fs layer
-b4bf25e902be: Pulling fs layer
-f7d1a0c65297: Pulling fs layer
-b20022aa994c: Pulling fs layer
-6dad509e6e13: Pulling fs layer
-8bfb10533ec2: Pulling fs layer
-12589745597b: Pulling fs layer
-a2bebd23e970: Pulling fs layer
-289eb2919b18: Pulling fs layer
-744a2173b7e7: Pulling fs layer
-5aa3d2f00fa8: Pulling fs layer
-8215a030e8ab: Pulling fs layer
-3c5158733227: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Pulling fs layer
-ff61d7bfda17: Layer already being pulled by another client. Waiting.
-ff61d7bfda17: Verifying Checksum
-ff61d7bfda17: Download complete
-ff61d7bfda17: Download complete
-ca7a0d5de2eb: Verifying Checksum
-ca7a0d5de2eb: Download complete
-5ba9dab47459: Verifying Checksum
-5ba9dab47459: Download complete
-51a9c7c1f8bb: Verifying Checksum
-51a9c7c1f8bb: Download complete
-5f92234dcf1e: Verifying Checksum
-5f92234dcf1e: Download complete
-8bfb10533ec2: Verifying Checksum
-8bfb10533ec2: Download complete
-6dad509e6e13: Verifying Checksum
-6dad509e6e13: Download complete
-b20022aa994c: Verifying Checksum
-b20022aa994c: Download complete
-b4bf25e902be: Verifying Checksum
-b4bf25e902be: Download complete
-744a2173b7e7: Verifying Checksum
-744a2173b7e7: Download complete
-289eb2919b18: Verifying Checksum
-289eb2919b18: Download complete
-3c5158733227: Verifying Checksum
-3c5158733227: Download complete
-8215a030e8ab: Verifying Checksum
-8215a030e8ab: Download complete
-511136ea3c5a: Verifying Checksum
-511136ea3c5a: Download complete
-511136ea3c5a: Pull complete
-a2bebd23e970: Verifying Checksum
-a2bebd23e970: Download complete
-5aa3d2f00fa8: Verifying Checksum
-5aa3d2f00fa8: Download complete
-27d47432a69b: Verifying Checksum
-27d47432a69b: Download complete
-f7d1a0c65297: Verifying Checksum
-f7d1a0c65297: Download complete
-12589745597b: Verifying Checksum
-12589745597b: Download complete
-27d47432a69b: Pull complete
-5f92234dcf1e: Pull complete
-51a9c7c1f8bb: Pull complete
-5ba9dab47459: Pull complete
-ca7a0d5de2eb: Pull complete
-b4bf25e902be: Pull complete
-f7d1a0c65297: Pull complete
-b20022aa994c: Pull complete
-6dad509e6e13: Pull complete
-8bfb10533ec2: Pull complete
-12589745597b: Pull complete
-a2bebd23e970: Pull complete
-289eb2919b18: Pull complete
-744a2173b7e7: Pull complete
-5aa3d2f00fa8: Pull complete
-8215a030e8ab: Pull complete
-3c5158733227: Pull complete
-ff61d7bfda17: Pull complete
-ff61d7bfda17: Already exists
-Digest: sha256:bf4f6331fb4a808a2586506e4f16bc3883b93fa46e676a9f4465d01c3f0054bc
-Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:latest
+docker pull 136.187.101.71:5000/swagger-editor:flat
+flat: Pulling from 136.187.101.71:5000/swagger-editor
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Pulling fs layer
+82c4e72da24c: Layer already being pulled by another client. Waiting.
+82c4e72da24c: Verifying Checksum
+82c4e72da24c: Download complete
+82c4e72da24c: Download complete
+82c4e72da24c: Pull complete
+82c4e72da24c: Already exists
+Digest: sha256:4f433e7a9bce0cedccb3a8f585a501aa9f0c728f056ea94d22d94761c6b9fc79
+Status: Downloaded newer image for 136.187.101.71:5000/swagger-editor:flat
 
-real  25.77
+real  23.67
 
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-136.187.101.71:5000/swagger-editor   latest              ff61d7bfda17        3 months ago        904.6 MB
+136.187.101.71:5000/swagger-editor   flat                82c4e72da24c        4 days ago          875.7 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/swagger-editor:flat"
 ssh kai@136.187.101.71 "docker images | grep swagger-editor"
-mkdir: cannot create directory 'logs': File exists
 
 ssh kai@136.187.101.71 "docker rm -f docker_registry"
 
-end date: Sun Jun 14 04:56:03 JST 2015
+end date: Sat Jun 27 04:44:01 JST 2015
 
 

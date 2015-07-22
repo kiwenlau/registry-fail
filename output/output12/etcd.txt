@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer etcd image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Tue Jul  7 00:22:13 JST 2015
+
+sudo docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+sudo docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+d40126555d55        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:adc0ab9ab376e6bb914a51c93186fdca53c545b15ea6b6d2cb77cbc48353c1c3
+
+real  39.76
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:adc0ab9ab376e6bb914a51c93186fdca53c545b15ea6b6d2cb77cbc48353c1c3
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.37
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+831ca4d77dd8        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:62f8f8a3ffe3a901166bbfeb630d689ae7c6bcf6586b8cd4123bfcba956a0ee3
+
+real  39.22
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:62f8f8a3ffe3a901166bbfeb630d689ae7c6bcf6586b8cd4123bfcba956a0ee3
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.36
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+57609e692b65        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:af0728d2cad0d7b2086f2d4525782042ce0bb90ac2d8d67ae21bcaae4660778f
+
+real  40.19
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:af0728d2cad0d7b2086f2d4525782042ce0bb90ac2d8d67ae21bcaae4660778f
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.42
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+ff79ac506c59        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:c0670d82e32ca3a24dad20388e5dfb291abd451b1a7ab90af177c4529fff9d70
+
+real  41.28
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:c0670d82e32ca3a24dad20388e5dfb291abd451b1a7ab90af177c4529fff9d70
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.35
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+392cb8bffa69        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+
+real  38.11
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.34
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+84bd6ef9f481        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+
+real  39.99
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.56
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+c44564c57e5c        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+
+real  40.14
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.41
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+b99e536fe9bc        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:c0a5b10a506fb8b4b403829d06bc81bb1f97b2fa99bcab792dd4f9dc9a25e402
+
+real  38.74
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:c0a5b10a506fb8b4b403829d06bc81bb1f97b2fa99bcab792dd4f9dc9a25e402
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.32
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+4f1f05f77d41        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:dcd77ea97eeff3e6f0b1c236eb840a37cfc022de81483bdbada352b54930081a
+
+real  39.23
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:dcd77ea97eeff3e6f0b1c236eb840a37cfc022de81483bdbada352b54930081a
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.39
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        2 weeks ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+68ff5d69c5ac        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+7e36bd5556d3: Buffering to Disk
+7e36bd5556d3: Image successfully pushed
+7e36bd5556d3: Image already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+
+real  37.97
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+flat: Pulling from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Layer already being pulled by another client. Waiting.
+7e36bd5556d3: Verifying Checksum
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+7e36bd5556d3: Pull complete
+7e36bd5556d3: Already exists
+Digest: sha256:54053a622bc1dea38156cb2deacf84730994b4289bf0d96c99e08a33c05495f8
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  6.34
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd                flat                7e36bd5556d3        2 weeks ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+end date: Tue Jul  7 00:30:57 JST 2015
+
+

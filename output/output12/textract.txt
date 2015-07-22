@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer textract image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Tue Jul  7 00:53:22 JST 2015
+
+sudo docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+sudo docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+8ea9674cdffd        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+
+real  63.20
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.73
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+29d4d3ac2264        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+
+real  63.40
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.42
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+b1e599a4229a        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+
+real  60.15
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.55
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+fe457ed7954a        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+
+real  62.64
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.51
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+0547aa667bea        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:48f676be18d1e2b256573bb0c43092b6643665540cc6ef06d0258ffcba5ea647
+
+real  61.07
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:48f676be18d1e2b256573bb0c43092b6643665540cc6ef06d0258ffcba5ea647
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.61
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+166e4889a8c0        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:48f676be18d1e2b256573bb0c43092b6643665540cc6ef06d0258ffcba5ea647
+
+real  60.76
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:48f676be18d1e2b256573bb0c43092b6643665540cc6ef06d0258ffcba5ea647
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.46
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+27c048bf9953        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:3180d0a3522d9909bd2f90d15bae88c96c7939bca4654001bc50c8bc0e818793
+
+real  61.90
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:3180d0a3522d9909bd2f90d15bae88c96c7939bca4654001bc50c8bc0e818793
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.41
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+c4da1818eaf2        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+
+real  60.54
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:7c222a1d9015e55331985bcb7b17caca0194fffdc93da74983fecea44ad39219
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.59
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+4fea4676c53b        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:3180d0a3522d9909bd2f90d15bae88c96c7939bca4654001bc50c8bc0e818793
+
+real  58.02
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:3180d0a3522d9909bd2f90d15bae88c96c7939bca4654001bc50c8bc0e818793
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.56
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 textract
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker tag kiwenlau/textract:flat 136.187.101.80:5000/textract:flat
+
+docker images
+kiwenlau/textract               flat                f18cb7295a75        2 weeks ago         399.5 MB
+136.187.101.80:5000/textract    flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+d554c777366b        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/textract:flat
+The push refers to a repository [136.187.101.80:5000/textract] (len: 1)
+f18cb7295a75: Buffering to Disk
+f18cb7295a75: Image successfully pushed
+f18cb7295a75: Image already exists
+Digest: sha256:1adf34f31118276975deaf1547c288dff9273b2860a4a1c49d1c7e699e2b8c58
+
+real  61.54
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker pull 136.187.101.80:5000/textract:flat
+flat: Pulling from 136.187.101.80:5000/textract
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Pulling fs layer
+f18cb7295a75: Layer already being pulled by another client. Waiting.
+f18cb7295a75: Verifying Checksum
+f18cb7295a75: Download complete
+f18cb7295a75: Download complete
+f18cb7295a75: Pull complete
+f18cb7295a75: Already exists
+Digest: sha256:1adf34f31118276975deaf1547c288dff9273b2860a4a1c49d1c7e699e2b8c58
+Status: Downloaded newer image for 136.187.101.80:5000/textract:flat
+
+real  10.65
+
+ssh kai@136.187.101.71 "docker images | grep textract"
+136.187.101.80:5000/textract            flat                f18cb7295a75        2 weeks ago         399.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/textract:flat"
+ssh kai@136.187.101.71 "docker images | grep textract"
+
+docker rm -f docker_registry
+
+end date: Tue Jul  7 01:06:28 JST 2015
+
+

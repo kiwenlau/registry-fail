@@ -1,0 +1,585 @@
+
+pullpush benchmark: transfer etcd image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Fri Jul  3 00:29:44 JST 2015
+
+sudo docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+sudo docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+1cf1b6f785d9        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  40.28
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.53
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+2489f4734f2e        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  39.73
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.61
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+c38e733a5741        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  40.65
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.56
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+be91c9fa2f43        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  40.83
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.51
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+93b1eb5fd2ad        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  39.53
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.61
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+3ed465182fea        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+2da957b36913        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+0d628ca8f0e6        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  39.68
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.63
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+874815aecdb6        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  39.47
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.61
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+8666d4617668        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  40.05
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.55
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+54f4fc76c9f1        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  40.21
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.46
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+9257f3625b76        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+
+docker rm -f docker_registry
+
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+971aedec1422        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+
+docker rm -f docker_registry
+
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 etcd
+
+docker images
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker tag kiwenlau/etcd:flat 136.187.101.80:5000/etcd:flat
+
+docker images
+136.187.101.80:5000/etcd        flat                7e36bd5556d3        10 days ago         248.9 MB
+kiwenlau/etcd                   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+03e561d27ac7        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/etcd:flat
+The push refers to a repository [136.187.101.80:5000/etcd] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/etcd (1 tags)
+7e36bd5556d3: Pushing
+7e36bd5556d3: Buffering to disk
+7e36bd5556d3: Image successfully pushed
+Pushing tag for rev [7e36bd5556d3] on {http://136.187.101.80:5000/v1/repositories/etcd/tags/flat}
+
+real  39.59
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker pull 136.187.101.80:5000/etcd:flat
+Pulling repository 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd
+7e36bd5556d3: Pulling image (flat) from 136.187.101.80:5000/etcd, endpoint: http://136.187.101.80:5000/v1/
+7e36bd5556d3: Pulling dependent layers
+7e36bd5556d3: Pulling metadata
+7e36bd5556d3: Pulling fs layer
+7e36bd5556d3: Download complete
+7e36bd5556d3: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/etcd:flat
+
+real  9.56
+
+ssh kai@136.187.101.71 "docker images | grep etcd"
+136.187.101.80:5000/etcd   flat                7e36bd5556d3        10 days ago         248.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/etcd:flat"
+ssh kai@136.187.101.71 "docker images | grep etcd"
+
+docker rm -f docker_registry
+
+end date: Fri Jul  3 00:39:29 JST 2015
+
+

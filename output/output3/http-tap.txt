@@ -1,0 +1,625 @@
+
+pullpush benchmark: transfer http-tap image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Fri Jun 26 00:22:01 JST 2015
+
+sudo docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+sudo docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+424a469bf310        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  35.40
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.85
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+2b2f4c346660        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+0cd859662909        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+5e8dd66f10ab        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+a1329dee767d        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  34.44
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.84
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+61bbb4a81596        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+0ad625a2d403        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  36.25
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.87
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+dff8a0562702        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  36.31
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.88
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+b5d250d6c232        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+1f0f4219bbb3        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  37.10
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.83
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+c7b03b78746b        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  36.87
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.91
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+e59ba3561650        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  35.25
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.81
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+5af29c036855        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  38.17
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.85
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+9260d4dcc5c9        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+2b2bad1bb69d        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  38.84
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.87
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 http-tap
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+
+docker tag kiwenlau/http-tap:flat 136.187.101.71:5000/http-tap:flat
+
+docker images
+kiwenlau/http-tap               flat                910c9038284f        3 days ago          199.2 MB
+136.187.101.71:5000/http-tap    flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+5070e7458151        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/http-tap:flat
+The push refers to a repository [136.187.101.71:5000/http-tap] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/http-tap (1 tags)
+910c9038284f: Pushing
+910c9038284f: Buffering to disk
+910c9038284f: Image successfully pushed
+Pushing tag for rev [910c9038284f] on {http://136.187.101.71:5000/v1/repositories/http-tap/tags/flat}
+
+real  39.78
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+docker pull 136.187.101.71:5000/http-tap:flat
+Pulling repository 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap
+910c9038284f: Pulling image (flat) from 136.187.101.71:5000/http-tap, endpoint: http://136.187.101.71:5000/v1/
+910c9038284f: Pulling dependent layers
+910c9038284f: Pulling metadata
+910c9038284f: Pulling fs layer
+910c9038284f: Download complete
+910c9038284f: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/http-tap:flat
+
+real  8.85
+
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+136.187.101.71:5000/http-tap   flat                910c9038284f        3 days ago          199.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/http-tap:flat"
+ssh kai@136.187.101.71 "docker images | grep http-tap"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Fri Jun 26 00:31:34 JST 2015
+
+

@@ -1,0 +1,625 @@
+
+pullpush benchmark: transfer boatyard image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Fri Jul  3 08:11:01 JST 2015
+
+sudo docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+sudo docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+891fc6737c4b        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+
+docker rm -f docker_registry
+
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f3d7d5f5bc74        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  167.51
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.16
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+d31361669f10        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  166.44
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.07
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+211a3f403ac2        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  168.12
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.24
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+397754386ea7        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  171.72
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.30
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+d776c32d3bbd        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  176.81
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.29
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+9472f42288fb        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+1f8e1f113098        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  172.97
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.19
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+6fa0bf1e9512        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  174.26
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.24
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+d3219740e3d9        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+
+docker rm -f docker_registry
+
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+2f0e5b7ddef0        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+
+docker rm -f docker_registry
+
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+31e0254b878f        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+
+docker rm -f docker_registry
+
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+aa33040f4404        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  174.81
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.22
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+28768ad92915        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  184.24
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.19
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+8fc3fbff39ed        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+
+docker rm -f docker_registry
+
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.80:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        10 days ago         1.156 GB
+136.187.101.80:5000/boatyard    flat                61708ac88790        10 days ago         1.156 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+d40ca36d1d24        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/boatyard:flat
+The push refers to a repository [136.187.101.80:5000/boatyard] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/boatyard (1 tags)
+61708ac88790: Pushing
+61708ac88790: Buffering to disk
+61708ac88790: Image successfully pushed
+Pushing tag for rev [61708ac88790] on {http://136.187.101.80:5000/v1/repositories/boatyard/tags/flat}
+
+real  201.96
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.80:5000/boatyard:flat
+Pulling repository 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard
+61708ac88790: Pulling image (flat) from 136.187.101.80:5000/boatyard, endpoint: http://136.187.101.80:5000/v1/
+61708ac88790: Pulling dependent layers
+61708ac88790: Pulling metadata
+61708ac88790: Pulling fs layer
+61708ac88790: Download complete
+61708ac88790: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/boatyard:flat
+
+real  29.18
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.80:5000/boatyard   flat                61708ac88790        10 days ago         1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker rm -f docker_registry
+
+end date: Fri Jul  3 08:47:00 JST 2015
+
+

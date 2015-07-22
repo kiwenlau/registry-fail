@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer python-venv image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Sun Jul  5 01:17:26 JST 2015
+
+sudo docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+sudo docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+f21be650d89a        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+
+real  65.16
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.00
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+181a57a0f0ab        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+
+real  66.79
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.06
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+a2656468e56c        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:10f7d42913d294afa62a908549a75c2c0809ed8059a8af43d78c36dabab6375f
+
+real  66.69
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:10f7d42913d294afa62a908549a75c2c0809ed8059a8af43d78c36dabab6375f
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.19
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+ebdfd7fd5c43        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+
+real  64.42
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.32
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+f75cf61df980        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+
+real  69.13
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.10
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+5ad96afb2f09        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+
+real  66.33
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.21
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+90377443037c        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+
+real  67.45
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:86e33918ad742037abbc1d74abf2238e478804d802a7ef3299f9d7bc2532babe
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.11
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+7209ba061896        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:9e1266b0a55aa8a95225f545b2f35f719e9cb4c14e7c9f2eb1463057e372fcb8
+
+real  63.83
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:9e1266b0a55aa8a95225f545b2f35f719e9cb4c14e7c9f2eb1463057e372fcb8
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.50
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+2fb315f2a834        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:ec9275d1714154a2e713925eab7ba9e0c614f6c2738cc3e7e26a95f9cfad5c9c
+
+real  63.98
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:ec9275d1714154a2e713925eab7ba9e0c614f6c2738cc3e7e26a95f9cfad5c9c
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.09
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 python-venv
+
+docker images
+kiwenlau/python-venv            flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker tag kiwenlau/python-venv:flat 136.187.101.80:5000/python-venv:flat
+
+docker images
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+kiwenlau/python-venv              flat                b7e3df255d84        12 days ago         503.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+c5fee27594b2        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/python-venv:flat
+The push refers to a repository [136.187.101.80:5000/python-venv] (len: 1)
+b7e3df255d84: Buffering to Disk
+b7e3df255d84: Image successfully pushed
+b7e3df255d84: Image already exists
+Digest: sha256:ec9275d1714154a2e713925eab7ba9e0c614f6c2738cc3e7e26a95f9cfad5c9c
+
+real  63.34
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker pull 136.187.101.80:5000/python-venv:flat
+flat: Pulling from 136.187.101.80:5000/python-venv
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Pulling fs layer
+b7e3df255d84: Layer already being pulled by another client. Waiting.
+b7e3df255d84: Verifying Checksum
+b7e3df255d84: Download complete
+b7e3df255d84: Download complete
+b7e3df255d84: Pull complete
+b7e3df255d84: Already exists
+Digest: sha256:ec9275d1714154a2e713925eab7ba9e0c614f6c2738cc3e7e26a95f9cfad5c9c
+Status: Downloaded newer image for 136.187.101.80:5000/python-venv:flat
+
+real  13.00
+
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+136.187.101.80:5000/python-venv   flat                b7e3df255d84        12 days ago         503.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/python-venv:flat"
+ssh kai@136.187.101.71 "docker images | grep python-venv"
+
+docker rm -f docker_registry
+
+end date: Sun Jul  5 01:31:40 JST 2015
+
+

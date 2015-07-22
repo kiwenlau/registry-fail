@@ -1,0 +1,529 @@
+
+pullpush benchmark: transfer shell image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Sun Jun 28 00:29:22 JST 2015
+
+sudo docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+kiwenlau/cb-shell               latest              f62e333bd3c5        6 weeks ago         150 MB
+
+sudo docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+kiwenlau/cb-shell               latest              f62e333bd3c5        6 weeks ago         150 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+17140e8b0764        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  40.91
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.99
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+1fb3dc823942        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  42.61
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  8.00
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+abd7bc72505e        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  43.11
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.97
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+cb5d48b42e76        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  40.96
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.92
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+99112487f5f1        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  42.48
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.91
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+b6d385738b6f        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  40.93
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.89
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+b698a0d2bf86        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  42.20
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.90
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+4245eac38e5d        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  43.54
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.89
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+c655163e4f90        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  42.75
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.90
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 shell
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+docker tag kiwenlau/shell:flat 136.187.101.71:5000/shell:flat
+
+docker images
+kiwenlau/cb-shell               flat                3c4e8d226f8d        5 days ago          149.1 MB
+136.187.101.71:5000/shell       flat                8d1432b2ec2d        5 days ago          299.9 MB
+kiwenlau/shell                  flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+de0ff82bdb6e        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/shell:flat
+The push refers to a repository [136.187.101.71:5000/shell] (len: 1)
+8d1432b2ec2d: Buffering to Disk
+8d1432b2ec2d: Image successfully pushed
+8d1432b2ec2d: Image already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+
+real  43.03
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+docker pull 136.187.101.71:5000/shell:flat
+flat: Pulling from 136.187.101.71:5000/shell
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Pulling fs layer
+8d1432b2ec2d: Layer already being pulled by another client. Waiting.
+8d1432b2ec2d: Verifying Checksum
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Download complete
+8d1432b2ec2d: Pull complete
+8d1432b2ec2d: Already exists
+Digest: sha256:e066d5665160fd2c5c6bde46cae6f580795b78c8d7493cfe77da979ed1d27f77
+Status: Downloaded newer image for 136.187.101.71:5000/shell:flat
+
+real  7.90
+
+ssh kai@136.187.101.71 "docker images | grep shell"
+136.187.101.71:5000/shell   flat                8d1432b2ec2d        5 days ago          299.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/shell:flat"
+ssh kai@136.187.101.71 "docker images | grep shell"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Sun Jun 28 00:39:11 JST 2015
+
+

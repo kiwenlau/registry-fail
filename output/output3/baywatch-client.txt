@@ -1,0 +1,605 @@
+
+pullpush benchmark: transfer baywatch-client image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Fri Jun 26 03:26:12 JST 2015
+
+sudo docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+sudo docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+44b6204cf840        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+c47be3b1b03f        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  99.49
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.79
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+e957af48e6cc        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  97.90
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.70
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+5eff5fbb24ae        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+058d71c7a0a8        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  97.01
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.72
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+20341563a3eb        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  97.07
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.86
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+feb32fe2f33d        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+4f0d39f7e04b        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  97.00
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.82
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+b15157e82384        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  96.64
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  22.05
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+439ad7bd964a        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+2a872e248019        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+aefac23cf13a        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  98.21
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.71
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+40931edb839c        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  96.57
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.76
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+8f4560c4fb17        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  98.75
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.93
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 baywatch-client
+
+docker images
+kiwenlau/baywatch-client        flat                1213ef7ced96        3 days ago          735.5 MB
+
+docker tag kiwenlau/baywatch-client:flat 136.187.101.71:5000/baywatch-client:flat
+
+docker images
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+kiwenlau/baywatch-client              flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+c1fa1f737a11        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/baywatch-client:flat
+The push refers to a repository [136.187.101.71:5000/baywatch-client] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/baywatch-client (1 tags)
+1213ef7ced96: Pushing
+1213ef7ced96: Buffering to disk
+1213ef7ced96: Image successfully pushed
+Pushing tag for rev [1213ef7ced96] on {http://136.187.101.71:5000/v1/repositories/baywatch-client/tags/flat}
+
+real  97.98
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+docker pull 136.187.101.71:5000/baywatch-client:flat
+Pulling repository 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client
+1213ef7ced96: Pulling image (flat) from 136.187.101.71:5000/baywatch-client, endpoint: http://136.187.101.71:5000/v1/
+1213ef7ced96: Pulling dependent layers
+1213ef7ced96: Pulling metadata
+1213ef7ced96: Pulling fs layer
+1213ef7ced96: Download complete
+1213ef7ced96: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/baywatch-client:flat
+
+real  21.76
+
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+136.187.101.71:5000/baywatch-client   flat                1213ef7ced96        3 days ago          735.5 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/baywatch-client:flat"
+ssh kai@136.187.101.71 "docker images | grep baywatch-client"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Fri Jun 26 03:48:06 JST 2015
+
+

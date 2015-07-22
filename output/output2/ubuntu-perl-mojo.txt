@@ -1,0 +1,525 @@
+
+pullpush benchmark: transfer ubuntu-perl-mojo image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Thu Jun 25 04:29:31 JST 2015
+
+sudo docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+sudo docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+91464683a91a        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  116.59
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.59
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+4081599ce021        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+19b956c5da0f        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  116.04
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.80
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+80cee0967d39        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  117.65
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.55
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+6630d01b2756        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  116.60
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.55
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+4c98cc7235b6        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  117.57
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.63
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+37e56e44eeae        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  115.31
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.56
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+471644148fdb        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  118.94
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.71
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+c97a1a7de977        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  115.28
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.51
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+6d1bbd9667ff        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  116.73
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.65
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        2 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        2 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+b4c1f3582c98        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/ubuntu-perl-mojo (1 tags)
+d3c0c08b609d: Pushing
+d3c0c08b609d: Buffering to disk
+d3c0c08b609d: Image successfully pushed
+Pushing tag for rev [d3c0c08b609d] on {http://136.187.101.71:5000/v1/repositories/ubuntu-perl-mojo/tags/flat}
+
+real  117.95
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+Pulling repository 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling image (flat) from 136.187.101.71:5000/ubuntu-perl-mojo, endpoint: http://136.187.101.71:5000/v1/
+d3c0c08b609d: Pulling dependent layers
+d3c0c08b609d: Pulling metadata
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  23.81
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        2 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Thu Jun 25 04:54:37 JST 2015
+
+

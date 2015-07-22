@@ -2,121 +2,61 @@
 pullpush benchmark: transfer haproxy image to 136.187.101.71 host
  
 hostname: kuruwa-gw
-begin date: Wed Jun 17 00:07:50 JST 2015
+begin date: Tue Jun 30 00:07:17 JST 2015
 
 sudo docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+kiwenlau/haproxy                latest              dfe3e3cd92a5        7 weeks ago         97.91 MB
 
 sudo docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+kiwenlau/haproxy                latest              dfe3e3cd92a5        7 weeks ago         97.91 MB
 
 
 Test 1: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-54c1c099a02d        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+cb9f518cebe4        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
-
-docker rm -f docker_registry
-
-
-
-Test 1: ./pushpull.sh kai 136.187.101.71 haproxy
-
-docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
-
-docker images
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-
-docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-707e19bee8ad        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
-
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  21.49
+real  25.40
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.03
+real  6.65
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -125,129 +65,47 @@ docker rm -f docker_registry
 Test 2: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-a42abdb5549b        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+7980206789d9        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
-
-docker rm -f docker_registry
-
-
-
-Test 2: ./pushpull.sh kai 136.187.101.71 haproxy
-
-docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
-
-docker images
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-
-docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-6c9973b5d327        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
-
-docker push 136.187.101.80:5000/haproxy:latest
-
-docker rm -f docker_registry
-
-
-
-Test 2: ./pushpull.sh kai 136.187.101.71 haproxy
-
-docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
-
-docker images
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-
-docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-64f5e33d155a        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
-
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  21.72
+real  24.62
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.06
+real  6.61
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -256,89 +114,67 @@ docker rm -f docker_registry
 Test 3: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-67854943afa9        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+e40c82417f98        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
+
+docker rm -f docker_registry
+
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 haproxy
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+24ddce1e3ab8        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  20.54
+real  25.17
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.03
+real  6.64
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -347,89 +183,47 @@ docker rm -f docker_registry
 Test 4: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-8431d65df3d4        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+4ec12fbc2b96        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  21.45
+real  25.52
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.06
+real  6.66
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -438,89 +232,47 @@ docker rm -f docker_registry
 Test 5: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-c2d331860e6c        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+bc0f812cd446        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  20.83
+real  24.79
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.06
+real  6.64
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -529,89 +281,87 @@ docker rm -f docker_registry
 Test 6: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-44bff2291ab4        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+a1fb6028edbd        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 haproxy
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+80cba7ce303a        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/haproxy:flat
+
+docker rm -f docker_registry
+
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 haproxy
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+93033c2b96c9        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  21.48
+real  23.79
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.04
+real  6.66
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -620,89 +370,67 @@ docker rm -f docker_registry
 Test 7: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-f641d8ad5608        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+6651422c62fa        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 haproxy
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
+
+docker images
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+e84eef251dc6        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  21.71
+real  24.99
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.02
+real  6.66
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -711,18 +439,18 @@ docker rm -f docker_registry
 Test 8: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-a0ebe29268e1        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+707e9a16e875        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 
 docker rm -f docker_registry
 
@@ -731,89 +459,47 @@ docker rm -f docker_registry
 Test 8: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-e93bdb9a72d3        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+5db3c5b6d31f        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  21.59
+real  25.01
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.06
+real  6.68
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -822,89 +508,47 @@ docker rm -f docker_registry
 Test 9: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-6ca85749a885        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+fd4aca037879        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  20.73
+real  24.67
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  6.99
+real  6.66
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
@@ -913,93 +557,51 @@ docker rm -f docker_registry
 Test 10: ./pushpull.sh kai 136.187.101.71 haproxy
 
 docker images
-kiwenlau/haproxy             latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
 
-docker tag kiwenlau/haproxy:latest 136.187.101.80:5000/haproxy:latest
+docker tag kiwenlau/haproxy:flat 136.187.101.80:5000/haproxy:flat
 
 docker images
-kiwenlau/haproxy              latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+kiwenlau/haproxy                flat                2ca286a6b88c        7 days ago          96.3 MB
+136.187.101.80:5000/haproxy     flat                2ca286a6b88c        7 days ago          96.3 MB
 
 docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
-97d4348dacf0        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+a8b9ae7f96e9        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
 
-docker push 136.187.101.80:5000/haproxy:latest
+docker push 136.187.101.80:5000/haproxy:flat
 The push refers to a repository [136.187.101.80:5000/haproxy] (len: 1)
 Sending image list
 Pushing repository 136.187.101.80:5000/haproxy (1 tags)
-21e4345e9035: Pushing
-21e4345e9035: Buffering to disk
-21e4345e9035: Image successfully pushed
-b3d362b23ec1: Pushing
-b3d362b23ec1: Buffering to disk
-b3d362b23ec1: Image successfully pushed
-760f5612c717: Pushing
-760f5612c717: Buffering to disk
-760f5612c717: Image successfully pushed
-4ae31d69e28b: Pushing
-4ae31d69e28b: Buffering to disk
-4ae31d69e28b: Image successfully pushed
-f111ea60fdc4: Pushing
-f111ea60fdc4: Buffering to disk
-f111ea60fdc4: Image successfully pushed
-09d6aa7ac4e3: Pushing
-09d6aa7ac4e3: Buffering to disk
-09d6aa7ac4e3: Image successfully pushed
-5408df9cff00: Pushing
-5408df9cff00: Buffering to disk
-5408df9cff00: Image successfully pushed
-dfe3e3cd92a5: Pushing
-dfe3e3cd92a5: Buffering to disk
-dfe3e3cd92a5: Image successfully pushed
-Pushing tag for rev [dfe3e3cd92a5] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/latest}
+2ca286a6b88c: Pushing
+2ca286a6b88c: Buffering to disk
+2ca286a6b88c: Image successfully pushed
+Pushing tag for rev [2ca286a6b88c] on {http://136.187.101.80:5000/v1/repositories/haproxy/tags/flat}
 
-real  20.64
+real  24.06
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
-docker pull 136.187.101.80:5000/haproxy:latest
+docker pull 136.187.101.80:5000/haproxy:flat
 Pulling repository 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy
-dfe3e3cd92a5: Pulling image (latest) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
-dfe3e3cd92a5: Pulling dependent layers
-21e4345e9035: Pulling metadata
-21e4345e9035: Pulling fs layer
-21e4345e9035: Download complete
-b3d362b23ec1: Pulling metadata
-b3d362b23ec1: Pulling fs layer
-b3d362b23ec1: Download complete
-760f5612c717: Pulling metadata
-760f5612c717: Pulling fs layer
-760f5612c717: Download complete
-4ae31d69e28b: Pulling metadata
-4ae31d69e28b: Pulling fs layer
-4ae31d69e28b: Download complete
-f111ea60fdc4: Pulling metadata
-f111ea60fdc4: Pulling fs layer
-f111ea60fdc4: Download complete
-09d6aa7ac4e3: Pulling metadata
-09d6aa7ac4e3: Pulling fs layer
-09d6aa7ac4e3: Download complete
-5408df9cff00: Pulling metadata
-5408df9cff00: Pulling fs layer
-5408df9cff00: Download complete
-dfe3e3cd92a5: Pulling metadata
-dfe3e3cd92a5: Pulling fs layer
-dfe3e3cd92a5: Download complete
-dfe3e3cd92a5: Download complete
-Status: Downloaded newer image for 136.187.101.80:5000/haproxy:latest
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy
+2ca286a6b88c: Pulling image (flat) from 136.187.101.80:5000/haproxy, endpoint: http://136.187.101.80:5000/v1/
+2ca286a6b88c: Pulling dependent layers
+2ca286a6b88c: Pulling metadata
+2ca286a6b88c: Pulling fs layer
+2ca286a6b88c: Download complete
+2ca286a6b88c: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/haproxy:flat
 
-real  7.07
+real  6.63
 
 ssh kai@136.187.101.71 "docker images | grep haproxy"
-136.187.101.80:5000/haproxy   latest              dfe3e3cd92a5        5 weeks ago         97.91 MB
+136.187.101.80:5000/haproxy   flat                2ca286a6b88c        7 days ago          96.3 MB
 
-ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:latest"
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/haproxy:flat"
 ssh kai@136.187.101.71 "docker images | grep haproxy"
 
 docker rm -f docker_registry
 
-end date: Wed Jun 17 00:14:01 JST 2015
+end date: Tue Jun 30 00:14:00 JST 2015
 
 

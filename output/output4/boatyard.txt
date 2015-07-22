@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer boatyard image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Sat Jun 27 07:24:31 JST 2015
+
+sudo docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+sudo docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+9dbf38a4362e        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  189.33
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.39
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+1be0e9016fe9        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  187.36
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.53
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+e5bb164e013e        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  189.35
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.36
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+29293005c8bb        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  185.55
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.38
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+645738d8eefc        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:fdee3218b362a428b073da924b2eecd5de8eda03d103eb9382dbd84113e40f80
+
+real  190.11
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:fdee3218b362a428b073da924b2eecd5de8eda03d103eb9382dbd84113e40f80
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.25
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+2a96886523be        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  190.42
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.59
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+5b9c5895dfc0        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  182.16
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.57
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+7a77ffb0c598        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  190.09
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.53
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+fe408eb76d70        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+
+real  191.13
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:de8eca3fdcb5f72551f02466d8420b769c903c868d62c5aa03c04548278ac4a9
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.51
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 boatyard
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+
+docker tag kiwenlau/boatyard:flat 136.187.101.71:5000/boatyard:flat
+
+docker images
+kiwenlau/boatyard               flat                61708ac88790        4 days ago          1.156 GB
+136.187.101.71:5000/boatyard    flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+2e582fd58062        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/boatyard:flat
+The push refers to a repository [136.187.101.71:5000/boatyard] (len: 1)
+61708ac88790: Buffering to Disk
+61708ac88790: Image successfully pushed
+61708ac88790: Image already exists
+Digest: sha256:dd510100abe45a53c60b3f345e578e0fb4aae2b204a9be1d05dcc5c794cb35ea
+
+real  184.43
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+docker pull 136.187.101.71:5000/boatyard:flat
+flat: Pulling from 136.187.101.71:5000/boatyard
+61708ac88790: Pulling fs layer
+61708ac88790: Pulling fs layer
+61708ac88790: Layer already being pulled by another client. Waiting.
+61708ac88790: Verifying Checksum
+61708ac88790: Download complete
+61708ac88790: Download complete
+61708ac88790: Pull complete
+61708ac88790: Already exists
+Digest: sha256:dd510100abe45a53c60b3f345e578e0fb4aae2b204a9be1d05dcc5c794cb35ea
+Status: Downloaded newer image for 136.187.101.71:5000/boatyard:flat
+
+real  28.42
+
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+136.187.101.71:5000/boatyard   flat                61708ac88790        4 days ago          1.156 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/boatyard:flat"
+ssh kai@136.187.101.71 "docker images | grep boatyard"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Sat Jun 27 08:02:13 JST 2015
+
+

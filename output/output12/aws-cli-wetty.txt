@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer aws-cli-wetty image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Tue Jul  7 01:06:28 JST 2015
+
+sudo docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+sudo docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+036132f1308c        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:35a88b83962d45373782e26643a3710e6096600643960e4307cdc853491de4a3
+
+real  69.42
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:35a88b83962d45373782e26643a3710e6096600643960e4307cdc853491de4a3
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  11.98
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+7bcd2450248c        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:eaa5af1521cceb1eaac5d07c98c77a51a94262b7c1ca83e60644fa4bae1eeaec
+
+real  71.01
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:eaa5af1521cceb1eaac5d07c98c77a51a94262b7c1ca83e60644fa4bae1eeaec
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  12.32
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+04db71aab2ca        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:d7479711885c819ae9a9aa4b587460657f9b216eb92bf245301c93d555201518
+
+real  66.92
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:d7479711885c819ae9a9aa4b587460657f9b216eb92bf245301c93d555201518
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  12.41
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+117e1511acd8        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:6a259906492a5a47f25782912ca36d13d588ea874532ddf2ea8a3a2f627d459a
+
+real  67.57
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:6a259906492a5a47f25782912ca36d13d588ea874532ddf2ea8a3a2f627d459a
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  12.09
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+f3bf7fa6e68c        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:d7479711885c819ae9a9aa4b587460657f9b216eb92bf245301c93d555201518
+
+real  65.62
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:d7479711885c819ae9a9aa4b587460657f9b216eb92bf245301c93d555201518
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  12.06
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+fb50c615e1d1        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:bde0036cc1219fb05e3ab6e9a14b4ddb0656012d35ee760918454be1e337fd45
+
+real  68.90
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:bde0036cc1219fb05e3ab6e9a14b4ddb0656012d35ee760918454be1e337fd45
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  11.96
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+131920020c48        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:6afb495c43117bc11c1fe90f6ef3c2137634c913820920b4bd6a7e5a21c9f11c
+
+real  67.34
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:6afb495c43117bc11c1fe90f6ef3c2137634c913820920b4bd6a7e5a21c9f11c
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  12.31
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+6fb35a95c5c4        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:bde0036cc1219fb05e3ab6e9a14b4ddb0656012d35ee760918454be1e337fd45
+
+real  69.47
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:bde0036cc1219fb05e3ab6e9a14b4ddb0656012d35ee760918454be1e337fd45
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  11.97
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+d57503177dfd        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:35a88b83962d45373782e26643a3710e6096600643960e4307cdc853491de4a3
+
+real  68.44
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:35a88b83962d45373782e26643a3710e6096600643960e4307cdc853491de4a3
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  11.99
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.80:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.80:5000/aws-cli-wetty   flat                9e988b09527b        2 weeks ago         457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 weeks ago         457.3 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+0dbd7b7a16ec        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.80:5000/aws-cli-wetty] (len: 1)
+9e988b09527b: Buffering to Disk
+9e988b09527b: Image successfully pushed
+9e988b09527b: Image already exists
+Digest: sha256:bde0036cc1219fb05e3ab6e9a14b4ddb0656012d35ee760918454be1e337fd45
+
+real  66.81
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.80:5000/aws-cli-wetty:flat
+flat: Pulling from 136.187.101.80:5000/aws-cli-wetty
+9e988b09527b: Pulling fs layer
+9e988b09527b: Pulling fs layer
+9e988b09527b: Layer already being pulled by another client. Waiting.
+9e988b09527b: Verifying Checksum
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+9e988b09527b: Pull complete
+9e988b09527b: Already exists
+Digest: sha256:bde0036cc1219fb05e3ab6e9a14b4ddb0656012d35ee760918454be1e337fd45
+Status: Downloaded newer image for 136.187.101.80:5000/aws-cli-wetty:flat
+
+real  12.15
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.80:5000/aws-cli-wetty       flat                9e988b09527b        2 weeks ago         457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker rm -f docker_registry
+
+end date: Tue Jul  7 01:20:59 JST 2015
+
+

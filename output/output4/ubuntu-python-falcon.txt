@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer ubuntu-python-falcon image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Sat Jun 27 02:27:58 JST 2015
+
+sudo docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+sudo docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+0e3b5e81d39a        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  110.79
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.68
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+1872152d3a61        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  112.28
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.56
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+e7c07d6677a4        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  107.57
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.72
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+bee18efba717        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  112.45
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.64
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+319d2252c244        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  109.84
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.94
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+77099d921cd0        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  112.95
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.63
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+d56bbb050fba        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  105.93
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.67
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+7fd1fc8e1256        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  111.79
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  19.25
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+4a07e3d7aa11        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+
+real  109.52
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:99123eba073352ef59b85523ae20e467e54afb42670a2a8d46343d76c9856bbf
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.98
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 ubuntu-python-falcon
+
+docker images
+kiwenlau/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+docker tag kiwenlau/ubuntu-python-falcon:flat 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+docker images
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+kiwenlau/ubuntu-python-falcon              flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+7f0d3e931125        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-python-falcon:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-python-falcon] (len: 1)
+082424fb8ce5: Buffering to Disk
+082424fb8ce5: Image successfully pushed
+082424fb8ce5: Image already exists
+Digest: sha256:8c2f1671271b7e36c4b5e1f40d5a5e70da36ce9cafdd08370b48309bef5bf4b5
+
+real  112.24
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+docker pull 136.187.101.71:5000/ubuntu-python-falcon:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-python-falcon
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Pulling fs layer
+082424fb8ce5: Layer already being pulled by another client. Waiting.
+082424fb8ce5: Verifying Checksum
+082424fb8ce5: Download complete
+082424fb8ce5: Download complete
+082424fb8ce5: Pull complete
+082424fb8ce5: Already exists
+Digest: sha256:8c2f1671271b7e36c4b5e1f40d5a5e70da36ce9cafdd08370b48309bef5bf4b5
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-python-falcon:flat
+
+real  18.70
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+136.187.101.71:5000/ubuntu-python-falcon   flat                082424fb8ce5        4 days ago          702.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-python-falcon:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-python-falcon"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Sat Jun 27 02:51:03 JST 2015
+
+

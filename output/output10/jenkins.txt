@@ -1,0 +1,507 @@
+
+pullpush benchmark: transfer jenkins image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Sun Jul  5 02:04:23 JST 2015
+
+sudo docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins-slave          latest              34e0323ef111        4 weeks ago         698.2 MB
+
+sudo docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins-slave          latest              34e0323ef111        4 weeks ago         698.2 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+cb09a7dc5ac2        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:8aaa4dede47ca911575f89e8a656aafa7fe4cd3bbe27341c8e22e21b8a7514a4
+
+real  82.46
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:8aaa4dede47ca911575f89e8a656aafa7fe4cd3bbe27341c8e22e21b8a7514a4
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  17.85
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+f0b56fd4d729        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:0cbdbdbd34fcb4ef8f5db58f3312e7241edb2f994f6a18ff07e7d73d78ad9807
+
+real  83.50
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:0cbdbdbd34fcb4ef8f5db58f3312e7241edb2f994f6a18ff07e7d73d78ad9807
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  17.88
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+c6f35cb10bc2        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:8f4eb221d2459e122adfd3c148b83814a7630a8f896d825d865ebe8d5eb8c931
+
+real  81.97
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:8f4eb221d2459e122adfd3c148b83814a7630a8f896d825d865ebe8d5eb8c931
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  17.76
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+0ef28dac5ca1        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:4e733ff949119ec1a61b6e9b4aebbfe8c850a1bc7a2121a70aee7c69682acb56
+
+real  84.12
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:4e733ff949119ec1a61b6e9b4aebbfe8c850a1bc7a2121a70aee7c69682acb56
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  17.89
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+3e0c038979df        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:04197dcaa8934cc80b0aa9433d25e80ea353f0b16109242f9b13335c9eb628d9
+
+real  82.81
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:04197dcaa8934cc80b0aa9433d25e80ea353f0b16109242f9b13335c9eb628d9
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  18.08
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+3f6cb76b12f8        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:4e733ff949119ec1a61b6e9b4aebbfe8c850a1bc7a2121a70aee7c69682acb56
+
+real  84.00
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:4e733ff949119ec1a61b6e9b4aebbfe8c850a1bc7a2121a70aee7c69682acb56
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  17.86
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+2e88932cef28        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:4e733ff949119ec1a61b6e9b4aebbfe8c850a1bc7a2121a70aee7c69682acb56
+
+real  84.14
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:4e733ff949119ec1a61b6e9b4aebbfe8c850a1bc7a2121a70aee7c69682acb56
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  18.00
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+312bd5db6344        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:8f4eb221d2459e122adfd3c148b83814a7630a8f896d825d865ebe8d5eb8c931
+
+real  81.26
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:8f4eb221d2459e122adfd3c148b83814a7630a8f896d825d865ebe8d5eb8c931
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  18.08
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+1377de664753        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:d73d41f0b581806b24f1bc5bd0a2335d9c634daae26132b9f51d106f81cb29bb
+
+real  82.72
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:d73d41f0b581806b24f1bc5bd0a2335d9c634daae26132b9f51d106f81cb29bb
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  18.24
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 jenkins
+
+docker images
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker tag kiwenlau/jenkins:flat 136.187.101.80:5000/jenkins:flat
+
+docker images
+136.187.101.80:5000/jenkins     flat                411d8c1b2f30        12 days ago         650.2 MB
+kiwenlau/jenkins                flat                411d8c1b2f30        12 days ago         650.2 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1
+119dca468789        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/jenkins:flat
+The push refers to a repository [136.187.101.80:5000/jenkins] (len: 1)
+411d8c1b2f30: Buffering to Disk
+411d8c1b2f30: Image successfully pushed
+411d8c1b2f30: Image already exists
+Digest: sha256:8f54bb3e8f03b0effb623b3ddebcdc25d9fb4f69cc114bb816ce0d91a233d7dd
+
+real  81.17
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker pull 136.187.101.80:5000/jenkins:flat
+flat: Pulling from 136.187.101.80:5000/jenkins
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Pulling fs layer
+411d8c1b2f30: Layer already being pulled by another client. Waiting.
+411d8c1b2f30: Verifying Checksum
+411d8c1b2f30: Download complete
+411d8c1b2f30: Download complete
+411d8c1b2f30: Pull complete
+411d8c1b2f30: Already exists
+Digest: sha256:8f54bb3e8f03b0effb623b3ddebcdc25d9fb4f69cc114bb816ce0d91a233d7dd
+Status: Downloaded newer image for 136.187.101.80:5000/jenkins:flat
+
+real  17.85
+
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+136.187.101.80:5000/jenkins   flat                411d8c1b2f30        12 days ago         650.2 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/jenkins:flat"
+ssh kai@136.187.101.71 "docker images | grep jenkins"
+
+docker rm -f docker_registry
+
+end date: Sun Jul  5 02:22:19 JST 2015
+
+

@@ -1,0 +1,565 @@
+
+pullpush benchmark: transfer aws-cli-wetty image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Thu Jun 25 01:19:51 JST 2015
+
+sudo docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+sudo docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+305d484ffa33        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  84.56
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.48
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+2bf15bd4bef6        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  80.43
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.62
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+4b2ea7cd8418        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  78.14
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.50
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+6c5c3e67366e        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+ceb4ee194b90        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+48d54d5c2a9e        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  74.30
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.56
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+40535da2ecc5        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  82.11
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.63
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+a371f9f2437b        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  83.25
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.41
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+21ee634c39d8        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  77.18
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.44
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+f597655348f7        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  77.50
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.38
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+5bcc51a9b2bc        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+0559db0dedad        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  77.88
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.48
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 aws-cli-wetty
+
+docker images
+kiwenlau/aws-cli-wetty          flat                9e988b09527b        2 days ago          457.3 MB
+
+docker tag kiwenlau/aws-cli-wetty:flat 136.187.101.71:5000/aws-cli-wetty:flat
+
+docker images
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+kiwenlau/aws-cli-wetty              flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1"
+3ceb7d91a55a        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/aws-cli-wetty:flat
+The push refers to a repository [136.187.101.71:5000/aws-cli-wetty] (len: 1)
+Sending image list
+Pushing repository 136.187.101.71:5000/aws-cli-wetty (1 tags)
+9e988b09527b: Pushing
+9e988b09527b: Buffering to disk
+9e988b09527b: Image successfully pushed
+Pushing tag for rev [9e988b09527b] on {http://136.187.101.71:5000/v1/repositories/aws-cli-wetty/tags/flat}
+
+real  76.90
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+docker pull 136.187.101.71:5000/aws-cli-wetty:flat
+Pulling repository 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty
+9e988b09527b: Pulling image (flat) from 136.187.101.71:5000/aws-cli-wetty, endpoint: http://136.187.101.71:5000/v1/
+9e988b09527b: Pulling dependent layers
+9e988b09527b: Pulling metadata
+9e988b09527b: Pulling fs layer
+9e988b09527b: Download complete
+9e988b09527b: Download complete
+Status: Downloaded newer image for 136.187.101.71:5000/aws-cli-wetty:flat
+
+real  14.52
+
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+136.187.101.71:5000/aws-cli-wetty   flat                9e988b09527b        2 days ago          457.3 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/aws-cli-wetty:flat"
+ssh kai@136.187.101.71 "docker images | grep aws-cli-wetty"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Thu Jun 25 01:37:15 JST 2015
+
+

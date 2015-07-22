@@ -1,0 +1,565 @@
+
+pullpush benchmark: transfer ruby-mri image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Thu Jul  2 03:53:01 JST 2015
+
+sudo docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+sudo docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+09f2052f86e1        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  125.79
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.38
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f75e53c4098c        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+
+docker rm -f docker_registry
+
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+aad9d7ec8937        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  124.22
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.27
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+77710b05d63c        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  138.61
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.54
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+ab8d0cf929a4        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  142.37
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.26
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+4a6b1be944f6        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  146.20
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.32
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+b26ca710350f        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  145.20
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.20
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+c3fe65c74ccf        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+bdc1c71f61e2        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  148.35
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.51
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+a69f4ddfc856        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  145.97
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.14
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+ee0f40b6bfa6        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+
+docker rm -f docker_registry
+
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+18ec9b790bb0        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  147.16
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.18
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.80:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        9 days ago          798.9 MB
+136.187.101.80:5000/ruby-mri    flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+fde4a5870e40        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.80:5000/ruby-mri] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/ruby-mri (1 tags)
+676cc9d0bd3b: Pushing
+676cc9d0bd3b: Buffering to disk
+676cc9d0bd3b: Image successfully pushed
+Pushing tag for rev [676cc9d0bd3b] on {http://136.187.101.80:5000/v1/repositories/ruby-mri/tags/flat}
+
+real  148.06
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.80:5000/ruby-mri:flat
+Pulling repository 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri
+676cc9d0bd3b: Pulling image (flat) from 136.187.101.80:5000/ruby-mri, endpoint: http://136.187.101.80:5000/v1/
+676cc9d0bd3b: Pulling dependent layers
+676cc9d0bd3b: Pulling metadata
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/ruby-mri:flat
+
+real  22.32
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.80:5000/ruby-mri   flat                676cc9d0bd3b        9 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker rm -f docker_registry
+
+end date: Thu Jul  2 04:21:49 JST 2015
+
+

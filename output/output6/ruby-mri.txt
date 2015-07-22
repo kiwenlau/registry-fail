@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer ruby-mri image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Mon Jun 29 03:36:56 JST 2015
+
+sudo docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+sudo docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+24d5fe16934f        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:5516b75852418672a67153537277a788d53a865f8d2bd74bd7d36443efbc09cf
+
+real  105.02
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:5516b75852418672a67153537277a788d53a865f8d2bd74bd7d36443efbc09cf
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.42
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+d1c5375065bd        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+
+real  99.19
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.68
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+0ba2ec9c7892        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:5516b75852418672a67153537277a788d53a865f8d2bd74bd7d36443efbc09cf
+
+real  96.58
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:5516b75852418672a67153537277a788d53a865f8d2bd74bd7d36443efbc09cf
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.35
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+05269ee315fe        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+
+real  100.29
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.95
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+60451d423013        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:29559576d5339112f51a51b40d9d0c2f63df9b29b9485b6911dcc5d56ba1e13a
+
+real  94.88
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:29559576d5339112f51a51b40d9d0c2f63df9b29b9485b6911dcc5d56ba1e13a
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.51
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+89841a451971        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+
+real  98.49
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.35
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+1c05bd581bc1        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:5c0f22f71c7058bf0a9b82364f5d053eb4de09475ccb0db43fbe015885d931bc
+
+real  100.09
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:5c0f22f71c7058bf0a9b82364f5d053eb4de09475ccb0db43fbe015885d931bc
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  21.02
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+8794e2eb843d        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+
+real  95.79
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.43
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+b34034210702        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+
+real  98.10
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.40
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 ruby-mri
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+docker tag kiwenlau/ruby-mri:flat 136.187.101.71:5000/ruby-mri:flat
+
+docker images
+kiwenlau/ruby-mri               flat                676cc9d0bd3b        6 days ago          798.9 MB
+136.187.101.71:5000/ruby-mri    flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+42495b1de3fd        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ruby-mri:flat
+The push refers to a repository [136.187.101.71:5000/ruby-mri] (len: 1)
+676cc9d0bd3b: Buffering to Disk
+676cc9d0bd3b: Image successfully pushed
+676cc9d0bd3b: Image already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+
+real  95.91
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+docker pull 136.187.101.71:5000/ruby-mri:flat
+flat: Pulling from 136.187.101.71:5000/ruby-mri
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Pulling fs layer
+676cc9d0bd3b: Layer already being pulled by another client. Waiting.
+676cc9d0bd3b: Verifying Checksum
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Download complete
+676cc9d0bd3b: Pull complete
+676cc9d0bd3b: Already exists
+Digest: sha256:e0a591d5426a587d33ac72fa6ec131b5667e629c7214369e5ee949d4ebd2628b
+Status: Downloaded newer image for 136.187.101.71:5000/ruby-mri:flat
+
+real  20.57
+
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+136.187.101.71:5000/ruby-mri   flat                676cc9d0bd3b        6 days ago          798.9 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ruby-mri:flat"
+ssh kai@136.187.101.71 "docker images | grep ruby-mri"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Mon Jun 29 03:58:23 JST 2015
+
+

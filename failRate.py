@@ -5,7 +5,7 @@ def calculateRate(testNumber):
     for n in testNumber :
         sum = sum + int(n.rstrip("\n"))
     #print sum
-    return (sum - 930)/float(sum)
+    return (sum - 870)/float(sum)
 
 def readfile(filepath):
     f=open(filepath, "r")

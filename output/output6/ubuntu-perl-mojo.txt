@@ -1,0 +1,505 @@
+
+pullpush benchmark: transfer ubuntu-perl-mojo image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Mon Jun 29 03:58:23 JST 2015
+
+sudo docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+sudo docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+36ae0e643c4a        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:9f587ba77801b7225865544539c1200db6c54576ca8d42f9029adf97886ef475
+
+real  118.19
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:9f587ba77801b7225865544539c1200db6c54576ca8d42f9029adf97886ef475
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.91
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+5a1e9e927d8a        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+
+real  108.53
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.03
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+87dd16b8bb31        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+
+real  112.67
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.21
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+0aeb78bf1099        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:416641d9379144acb95bb65814b3fe913d0a1d71d5e12cd1d051ea7888f8088d
+
+real  109.86
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:416641d9379144acb95bb65814b3fe913d0a1d71d5e12cd1d051ea7888f8088d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.22
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+b5c7a23b4cc1        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+
+real  111.67
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.20
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+8e93b76388b6        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+
+real  113.42
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.19
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+2abe3fe46633        kiwenlau/registry:2.0.1   "registry cmd/regist   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+
+real  107.55
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.29
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+aa43dd04eb06        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+
+real  106.34
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.13
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+9967329001ef        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:8cd92366ebeb4a6c46c5cee7620c00f6e00f577065ec8c180c961573de008516
+
+real  109.99
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:8cd92366ebeb4a6c46c5cee7620c00f6e00f577065ec8c180c961573de008516
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.32
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 ubuntu-perl-mojo
+
+docker images
+kiwenlau/ubuntu-perl-mojo       flat                d3c0c08b609d        6 days ago          860 MB
+
+docker tag kiwenlau/ubuntu-perl-mojo:flat 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+docker images
+kiwenlau/ubuntu-perl-mojo              flat                d3c0c08b609d        6 days ago          860 MB
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:2.0.1"
+9d18c634fdc3        kiwenlau/registry:2.0.1   "registry cmd/regist   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.71:5000/ubuntu-perl-mojo:flat
+The push refers to a repository [136.187.101.71:5000/ubuntu-perl-mojo] (len: 1)
+d3c0c08b609d: Buffering to Disk
+d3c0c08b609d: Image successfully pushed
+d3c0c08b609d: Image already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+
+real  109.44
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+docker pull 136.187.101.71:5000/ubuntu-perl-mojo:flat
+flat: Pulling from 136.187.101.71:5000/ubuntu-perl-mojo
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Pulling fs layer
+d3c0c08b609d: Layer already being pulled by another client. Waiting.
+d3c0c08b609d: Verifying Checksum
+d3c0c08b609d: Download complete
+d3c0c08b609d: Download complete
+d3c0c08b609d: Pull complete
+d3c0c08b609d: Already exists
+Digest: sha256:4a87e11b293b02978e4b298294cd3e036c5119df4be1c617c5a589892c27b10d
+Status: Downloaded newer image for 136.187.101.71:5000/ubuntu-perl-mojo:flat
+
+real  22.11
+
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+136.187.101.71:5000/ubuntu-perl-mojo   flat                d3c0c08b609d        6 days ago          860 MB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.71:5000/ubuntu-perl-mojo:flat"
+ssh kai@136.187.101.71 "docker images | grep ubuntu-perl-mojo"
+
+ssh kai@136.187.101.71 "docker rm -f docker_registry"
+
+end date: Mon Jun 29 04:22:10 JST 2015
+
+

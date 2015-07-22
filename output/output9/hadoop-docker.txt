@@ -1,0 +1,565 @@
+
+pullpush benchmark: transfer hadoop-docker image to 136.187.101.71 host
+ 
+hostname: kuruwa-gw
+begin date: Fri Jul  3 09:27:50 JST 2015
+
+sudo docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+sudo docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+
+Test 1: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+eb03b425b747        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  191.58
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.06
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 2: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+4ac662326ebf        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  194.27
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.12
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+af6e66e3052e        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+
+docker rm -f docker_registry
+
+
+
+Test 3: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+fd90d8b01d8d        kiwenlau/registry:0.9.1   "docker-registry"   1 seconds ago       Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  193.79
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.28
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+e922a027c3df        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+
+docker rm -f docker_registry
+
+
+
+Test 4: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+fe78a2923d5f        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  182.73
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.14
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 5: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+29242b64568d        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  189.29
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.41
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 6: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+d138d61c7f00        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  185.66
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.13
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+710e26873e40        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+
+docker rm -f docker_registry
+
+
+
+Test 7: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+8db07266eb5b        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  205.94
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.17
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 8: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+e555da2b7ce3        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  205.86
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.23
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 9: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+8cce833bbf09        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  207.24
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  32.33
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+
+Test 10: ./pushpull.sh kai 136.187.101.71 hadoop-docker
+
+docker images
+kiwenlau/hadoop-docker          flat                a6019eabac72        10 days ago         1.263 GB
+
+docker tag kiwenlau/hadoop-docker:flat 136.187.101.80:5000/hadoop-docker:flat
+
+docker images
+kiwenlau/hadoop-docker              flat                a6019eabac72        10 days ago         1.263 GB
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+docker run --name="docker_registry" -p 5000:5000 -v /etc/localtime:/etc/localtime:ro -v ~/registry:/tmp/registry -d kiwenlau/registry:0.9.1
+f40322ab66c7        kiwenlau/registry:0.9.1   "docker-registry"   Less than a second ago   Up Less than a second   0.0.0.0:5000->5000/tcp   docker_registry     
+
+docker push 136.187.101.80:5000/hadoop-docker:flat
+The push refers to a repository [136.187.101.80:5000/hadoop-docker] (len: 1)
+Sending image list
+Pushing repository 136.187.101.80:5000/hadoop-docker (1 tags)
+a6019eabac72: Pushing
+a6019eabac72: Buffering to disk
+a6019eabac72: Image successfully pushed
+Pushing tag for rev [a6019eabac72] on {http://136.187.101.80:5000/v1/repositories/hadoop-docker/tags/flat}
+
+real  205.70
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker pull 136.187.101.80:5000/hadoop-docker:flat
+Pulling repository 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker
+a6019eabac72: Pulling image (flat) from 136.187.101.80:5000/hadoop-docker, endpoint: http://136.187.101.80:5000/v1/
+a6019eabac72: Pulling dependent layers
+a6019eabac72: Pulling metadata
+a6019eabac72: Pulling fs layer
+a6019eabac72: Download complete
+a6019eabac72: Download complete
+Status: Downloaded newer image for 136.187.101.80:5000/hadoop-docker:flat
+
+real  31.95
+
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+136.187.101.80:5000/hadoop-docker   flat                a6019eabac72        10 days ago         1.263 GB
+
+ssh kai@136.187.101.71 "docker rmi 136.187.101.80:5000/hadoop-docker:flat"
+ssh kai@136.187.101.71 "docker images | grep hadoop-docker"
+
+docker rm -f docker_registry
+
+end date: Fri Jul  3 10:07:26 JST 2015
+
+
